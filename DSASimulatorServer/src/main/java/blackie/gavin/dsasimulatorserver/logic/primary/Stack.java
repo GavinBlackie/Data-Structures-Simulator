@@ -15,6 +15,11 @@ public class Stack {
     private int capacity;
     private int top;
 
+    public int test() {
+        this.hello();
+        return 5;
+    }
+
     public native void hello();
 
 //    public native void push(int element);
