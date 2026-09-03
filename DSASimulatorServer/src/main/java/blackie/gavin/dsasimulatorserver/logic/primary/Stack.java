@@ -3,10 +3,7 @@ package blackie.gavin.dsasimulatorserver.logic.primary;
 public class Stack {
 
     static {
-        //System.loadLibrary("hello");
-        String absolutePath = "C:\\Projects\\Personal\\Data-Structures-Simulator\\DSASimulatorServer\\hello.dll";
-        System.load(absolutePath);
-        //System.load("C:\\Projects\\Personal\\Data-Structures-Simulator\\DSASimulatorServer\\src\\main\\java\\blackie\\gavin\\dsasimulatorserver\\logic\\primary\\hello.dll");
+        System.loadLibrary("DSALogicLibrary");
     }
 
     public static void main(String[] args) {

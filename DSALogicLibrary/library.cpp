@@ -17,6 +17,6 @@ void hello() {
 }
 
 JNIEXPORT void JNICALL Java_blackie_gavin_dsasimulatorserver_logic_primary_Stack_hello
-  (JNIEnv *, jobject) {
+  (JNIEnv * env, jobject jObj) {
     cout << "Hello java, from C++!!" << endl;
 }
