@@ -15,6 +15,11 @@ public class Stack {
     private int capacity;
     private int top;
 
+    public Stack() {
+        this.capacity = 10;
+        this.arr = new int[this.capacity];
+    }
+
     public int test() {
         this.hello();
         return 5;
@@ -22,10 +27,10 @@ public class Stack {
 
     public native void hello();
 
-//    public native void push(int element);
-//
-//    public native int pop();
-//
-//    public native int peek(int index);
+    public native void push(int element);
+
+    public native int pop();
+
+    public native int peek(int index);
 
 }

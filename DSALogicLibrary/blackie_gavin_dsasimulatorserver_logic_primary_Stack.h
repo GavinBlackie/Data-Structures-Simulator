@@ -15,6 +15,30 @@ extern "C" {
 JNIEXPORT void JNICALL Java_blackie_gavin_dsasimulatorserver_logic_primary_Stack_hello
   (JNIEnv *, jobject);
 
+/*
+ * Class:     blackie_gavin_dsasimulatorserver_logic_primary_Stack
+ * Method:    push
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_blackie_gavin_dsasimulatorserver_logic_primary_Stack_push
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     blackie_gavin_dsasimulatorserver_logic_primary_Stack
+ * Method:    pop
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_blackie_gavin_dsasimulatorserver_logic_primary_Stack_pop
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     blackie_gavin_dsasimulatorserver_logic_primary_Stack
+ * Method:    peek
+ * Signature: (I)I
+ */
+JNIEXPORT jint JNICALL Java_blackie_gavin_dsasimulatorserver_logic_primary_Stack_peek
+  (JNIEnv *, jobject, jint);
+
 #ifdef __cplusplus
 }
 #endif
