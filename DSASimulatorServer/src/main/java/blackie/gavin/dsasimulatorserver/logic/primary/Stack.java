@@ -16,13 +16,12 @@ public class Stack {
         stack.push(3);
         System.out.println("IsEmpty?: " + stack.isEmpty() );
         System.out.println("IsFull?: " + stack.isFull() );
-        for (int iCount = 0; iCount <= 7; iCount++) {
+        for (int iCount = 1; iCount <= 8; iCount++) {
             stack.push(3 + iCount);
         }
         System.out.println("IsEmpty?: " + stack.isEmpty() );
         System.out.println("IsFull?: " + stack.isFull() );
-        stack.push(10); // will not push
-
+        stack.push(11); // will not push?
     }
 
     private int[] arr;
@@ -50,9 +49,11 @@ public class Stack {
     public native boolean isEmpty();
     */
 
+    // region Methods
     public void push(int elem) {
         if (top == capacity - 1) {
             System.out.println("Stack overflow");
+            grow();
             return;
         }
         arr[++top] = elem;
@@ -66,4 +67,17 @@ public class Stack {
     public boolean isEmpty() {
         return top == -1;
     }
+
+    private void grow() {
+        capacity *= 2;
+        int[] temp = new int[capacity];
+        // Copy original contents into new array
+        for (int iElem = 0; iElem < arr.length; iElem++) {
+            temp[iElem] = arr[iElem];
+        }
+        arr = temp; // swap to larger temp array
+
+        System.out.println("Length: " + this.arr.length);
+    }
+    // endregion
 }
