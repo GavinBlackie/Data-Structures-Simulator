@@ -15,14 +15,40 @@ void hello() {
 }
 
 JNIEXPORT void JNICALL Java_blackie_gavin_dsasimulatorserver_logic_primary_Stack_hello
-  (JNIEnv * env, jobject jObj) {
+  (JNIEnv * env, jobject jStackObj) {
     cout << "Hello java, from C++!!" << endl;
 
     // https://stackoverflow.com/questions/1086596/how-to-access-arrays-within-an-object-with-jni
 
-    jclass jClass = env->GetObjectClass(jObj);
-    jfieldID capacityId = env->GetFieldID(jClass, "capacity", "I");
-    jint capacity = env->GetIntField(jObj, capacityId);
+    // jclass jClass = env->GetObjectClass(jObj);
+    // jfieldID capacityId = env->GetFieldID(jClass, "capacity", "I");
+    // jint capacity = env->GetIntField(jObj, capacityId);
 
-    cout << "Current Capacity: " << capacity << endl;
+    // 1. Get stack class obj
+    jclass stackClass = env->GetObjectClass(jStackObj);
+    // 2. Get field IDs matching java attribute names
+    jfieldID arrayId = env->GetFieldID(stackClass, "array", "[I");
+    jfieldID topId = env->GetFieldID(stackClass, "top", "I");
+    jfieldID capacityId = env->GetFieldID(stackClass, "capacity", "I");
+    // Verify that fields exist (memory management)
+    if (arrayId == nullptr || topId == nullptr || capacityId == nullptr) {
+        // Field names did not match!
+        return;
+    }
+
+    // 3. Extract data
+    jintArray array = (jintArray)env->GetObjectField(jStackObj, arrayId);
+    jint top= env->GetIntField(jStackObj, topId);
+
+    // 4. Safely access internal C++ pointer of java array
+    jint* elements = env->GetIntArrayElements(array, nullptr);
+
+    for (jint i = 0; i <= top; i++) {
+        cout << "Stack element at: " << i << " : " << elements[i] << endl;
+    }
+
+    // 6. Release pinned memory, prevent netive memory leaks
+    env->ReleaseIntArrayElements(array, elements, JNI_ABORT);
+
+    //cout << "Current Capacity: " << capacity << endl;
 }

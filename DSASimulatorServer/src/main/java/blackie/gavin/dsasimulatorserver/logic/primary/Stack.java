@@ -2,9 +2,9 @@ package blackie.gavin.dsasimulatorserver.logic.primary;
 
 public class Stack {
 
-//    static {
-//        System.loadLibrary("DSALogicLibrary");
-//    }
+    static {
+        System.loadLibrary("DSALogicLibrary");
+    }
 
     static void main(String[] args) {
         Stack stack = new Stack();
@@ -22,24 +22,26 @@ public class Stack {
         System.out.println("IsEmpty?: " + stack.isEmpty() );
         System.out.println("IsFull?: " + stack.isFull() );
         stack.push(11); // will not push?
+
+        stack.hello();
     }
 
-    private int[] arr;
+    private int[] array;
     private int capacity;
     private int top;
 
     public Stack() {
         this.capacity = 10;
-        this.arr = new int[this.capacity];
+        this.array = new int[this.capacity];
         this.top = -1;
     }
 
     public int test() {
         return 5;
     }
-    /*
-    public native void hello();
 
+    public native void hello();
+    /*
     public native void push(int element);
 
     public native int pop(int index);
@@ -56,7 +58,7 @@ public class Stack {
             grow();
             return;
         }
-        arr[++top] = elem;
+        array[++top] = elem;
         System.out.println(elem + " pushed onto stack");
     }
 
@@ -72,12 +74,12 @@ public class Stack {
         capacity *= 2;
         int[] temp = new int[capacity];
         // Copy original contents into new array
-        for (int iElem = 0; iElem < arr.length; iElem++) {
-            temp[iElem] = arr[iElem];
+        for (int iElem = 0; iElem < array.length; iElem++) {
+            temp[iElem] = array[iElem];
         }
-        arr = temp; // swap to larger temp array
+        array = temp; // swap to larger temp array
 
-        System.out.println("Length: " + this.arr.length);
+        System.out.println("Length: " + this.array.length);
     }
     // endregion
 }
