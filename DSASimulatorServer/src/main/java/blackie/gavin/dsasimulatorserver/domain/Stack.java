@@ -1,10 +1,10 @@
-package blackie.gavin.dsasimulatorserver.logic.primary;
+package blackie.gavin.dsasimulatorserver.domain;
 
 public class Stack {
 
-    static {
-        System.loadLibrary("DSALogicLibrary");
-    }
+//    static {
+//        System.loadLibrary("DSALogicLibrary");
+//    }
 
     static void main(String[] args) {
         Stack stack = new Stack();
@@ -23,7 +23,7 @@ public class Stack {
         System.out.println("IsFull?: " + stack.isFull() );
         stack.push(11); // will not push?
 
-        stack.hello();
+        //stack.hello();
     }
 
     private int[] array;
@@ -40,10 +40,10 @@ public class Stack {
         return 5;
     }
 
-    public native void hello();
-    /*
-    public native void push(int element);
+    //public native void hello();
 
+    //public native void push(int element);
+    /*
     public native int pop(int index);
 
     public native int peek(int index);

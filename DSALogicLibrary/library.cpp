@@ -2,7 +2,7 @@
 #include <jni.h>
 #include <iostream>
 #include "blackie_gavin_dsasimulatorserver_logic_primary_Stack.h"
-using std::cout, std::endl;
+using std::cout, std::endl, std::string;
 
 int main() {
     cout << "Hello, from Logic Library!!" << endl;
@@ -12,6 +12,21 @@ int main() {
 
 void hello() {
     std::cout << "Hello, World!" << std::endl;
+}
+
+jintArray getArray(JNIEnv * env, jclass jObj, const char* fieldName="array") {
+    jfieldID arrayId = env->GetFieldID(jObj, fieldName, "[I");
+    auto array = (jintArray)env->GetObjectField(jObj, arrayId);
+    return array;
+}
+
+JNIEXPORT void JNICALL Java_blackie_gavin_dsasimulatorserver_logic_primary_Stack_push
+  (JNIEnv * env, jobject jStackObj, jint elem) {
+    jclass stackClass = env->GetObjectClass(jStackObj);
+    jintArray array = getArray(env, stackClass);
+    jint* elements = env->GetIntArrayElements(array, nullptr);
+
+
 }
 
 JNIEXPORT void JNICALL Java_blackie_gavin_dsasimulatorserver_logic_primary_Stack_hello
