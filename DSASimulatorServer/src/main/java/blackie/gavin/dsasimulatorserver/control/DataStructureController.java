@@ -10,7 +10,7 @@ public class DataStructureController {
     @GetMapping("/test")
     public int test() {
         Stack stack = new Stack();
-
-        return stack.test();
+        stack.push(5);
+        return stack.pop();
     }
 }

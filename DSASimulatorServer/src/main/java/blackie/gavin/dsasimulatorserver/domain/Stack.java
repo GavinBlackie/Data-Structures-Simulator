@@ -1,32 +1,41 @@
 package blackie.gavin.dsasimulatorserver.domain;
 
-public class Stack {
+public class Stack extends LinearStructure{
 
 //    static {
 //        System.loadLibrary("DSALogicLibrary");
 //    }
 
+    // TODO: get rid of testing here and get a designated testing class
     static void main() {
         Stack stack = new Stack();
 
         System.out.println("IsEmpty?: " + stack.isEmpty() );
         System.out.println("IsFull?: " + stack.isFull() );
-        stack.push(1);
-        stack.push(2);
-        stack.push(3);
-        System.out.println("IsEmpty?: " + stack.isEmpty() );
-        System.out.println("IsFull?: " + stack.isFull() );
-//        for (int iCount = 1; iCount <= 8; iCount++) {
-//            stack.push(3 + iCount);
-//        }
-        System.out.println("IsEmpty?: " + stack.isEmpty() );
-        System.out.println("IsFull?: " + stack.isFull() );
-        stack.push(11); // will not push?
 
-        //stack.hello();
+        for (int iCount = 1; iCount <= 10; iCount++) {
+            stack.push(iCount);
+            System.out.println("push: " + iCount);
+        }
+        System.out.println("IsEmpty?: " + stack.isEmpty() );
+        System.out.println("IsFull?: " + stack.isFull() );
+
+        System.out.println("\nCapacity: " + stack.capacity);
+        System.out.println("IsFull?: " + stack.isFull() );
+        System.out.println("push: " + 11);
+        stack.push(11);
+        System.out.println("Capacity: " + stack.capacity);
+        System.out.println("IsFull?: " + stack.isFull() + "\n");
+
+        for (int iCount = 10; iCount > 0; iCount--) {
+            System.out.println("pop: " + stack.pop());
+        }
+
+        System.out.println("IsEmpty?: " + stack.isEmpty() );
+        System.out.println("IsFull?: " + stack.isFull() );
     }
 
-    private int[] array;
+    int[] array;
     private int capacity;
     private int top;
 
@@ -34,10 +43,6 @@ public class Stack {
         this.capacity = 10;
         this.array = new int[this.capacity];
         this.top = -1;
-    }
-
-    public int test() {
-        return 5;
     }
 
     //public native void hello();
@@ -54,18 +59,20 @@ public class Stack {
     // region Methods
     public void push(int elem) {
         if (top == capacity - 1) {
-            System.out.println("Stack overflow");
             grow();
-            return;
         }
         array[++top] = elem;
-        System.out.println(elem + " pushed onto stack");
+    }
+    public int pop() {
+        return array[top--];
     }
 
+    @Override
     public boolean isFull() {
         return top == capacity - 1;
     }
 
+    @Override
     public boolean isEmpty() {
         return top == -1;
     }
@@ -76,8 +83,6 @@ public class Stack {
         // Copy original contents into new array using arrayCopy function!
         System.arraycopy(array, 0, temp, 0, array.length);
         array = temp; // swap to larger temp array
-
-        System.out.println("Length: " + this.array.length);
     }
     // endregion
 }
