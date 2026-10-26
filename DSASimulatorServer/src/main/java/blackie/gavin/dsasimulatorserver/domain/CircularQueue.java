@@ -3,7 +3,7 @@ package blackie.gavin.dsasimulatorserver.domain;
 import java.util.Queue;
 import java.util.LinkedList;
 
-public class RawQueue extends LinearStructure{
+public class CircularQueue extends LinearStructure{
     // Remember LIFO: Last In, First Out
     // Will be a Circular Array Implementation!!
     // https://www.geeksforgeeks.org/dsa/introduction-to-circular-queue-1/ <-- this helped refresh some concepts for me
@@ -43,7 +43,7 @@ public class RawQueue extends LinearStructure{
     //endregion
 
     static void main() throws Exception {
-        RawQueue queue = new RawQueue(4);
+        CircularQueue queue = new CircularQueue(4);
         queue.enqueue(1);
         queue.enqueue(2);
         queue.enqueue(3);
@@ -56,7 +56,7 @@ public class RawQueue extends LinearStructure{
 
         // Testing queue runtime!! (Apparently mine is WAY faster :) )
         long startTime, endTime, elapsedTime;
-        RawQueue queue2 = new RawQueue();
+        CircularQueue queue2 = new CircularQueue();
 
         startTime = System.nanoTime();
         queue2.enqueue(1);
@@ -73,7 +73,7 @@ public class RawQueue extends LinearStructure{
 
         // Testing using Multithreading!!
         Thread javaQueueThread =    new Thread(new JavaQueueRunnable() );
-        Thread rawQueueThread =     new Thread(new RawQueueRunnable() );
+        Thread rawQueueThread =     new Thread(new CircularQueueRunnable() );
         javaQueueThread.start();
         rawQueueThread.start();
     }
@@ -84,14 +84,14 @@ public class RawQueue extends LinearStructure{
     private int size;
     private int capacity;
 
-    public RawQueue(int capacity) {
+    public CircularQueue(int capacity) {
         this.capacity = capacity;
         array = new int[capacity];
         int front = 0;
         int rear = 0;
         int size = 0;
     }
-    public RawQueue() {
+    public CircularQueue() {
         capacity = 10;
         array = new int[capacity];
         int front = 0;

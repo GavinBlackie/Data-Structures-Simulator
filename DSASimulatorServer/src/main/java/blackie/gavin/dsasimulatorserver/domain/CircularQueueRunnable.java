@@ -1,13 +1,13 @@
 package blackie.gavin.dsasimulatorserver.domain;
 
-public class RawQueueRunnable implements Runnable{
+public class CircularQueueRunnable implements Runnable{
 
     @Override
     public void run() {
         long startTime, endTime, elapsedTime;
         startTime = System.nanoTime();
 
-        RawQueue queue = new RawQueue(100);
+        CircularQueue queue = new CircularQueue(100);
         for (int iTest = 0; iTest < 100; iTest++) {
             queue.enqueue(iTest);
         }
@@ -21,6 +21,6 @@ public class RawQueueRunnable implements Runnable{
 
         endTime = System.nanoTime();
         elapsedTime = endTime - startTime;
-        System.out.println("RawQueueRunnable Elapsed Time: " + elapsedTime);
+        System.out.println("CircularQueueRunnable Elapsed Time: " + elapsedTime);
     }
 }
