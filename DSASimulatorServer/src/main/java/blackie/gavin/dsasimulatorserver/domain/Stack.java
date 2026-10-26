@@ -6,7 +6,7 @@ public class Stack {
 //        System.loadLibrary("DSALogicLibrary");
 //    }
 
-    static void main(String[] args) {
+    static void main() {
         Stack stack = new Stack();
 
         System.out.println("IsEmpty?: " + stack.isEmpty() );
@@ -16,9 +16,9 @@ public class Stack {
         stack.push(3);
         System.out.println("IsEmpty?: " + stack.isEmpty() );
         System.out.println("IsFull?: " + stack.isFull() );
-        for (int iCount = 1; iCount <= 8; iCount++) {
-            stack.push(3 + iCount);
-        }
+//        for (int iCount = 1; iCount <= 8; iCount++) {
+//            stack.push(3 + iCount);
+//        }
         System.out.println("IsEmpty?: " + stack.isEmpty() );
         System.out.println("IsFull?: " + stack.isFull() );
         stack.push(11); // will not push?
@@ -73,10 +73,8 @@ public class Stack {
     private void grow() {
         capacity *= 2;
         int[] temp = new int[capacity];
-        // Copy original contents into new array
-        for (int iElem = 0; iElem < array.length; iElem++) {
-            temp[iElem] = array[iElem];
-        }
+        // Copy original contents into new array using arrayCopy function!
+        System.arraycopy(array, 0, temp, 0, array.length);
         array = temp; // swap to larger temp array
 
         System.out.println("Length: " + this.array.length);
