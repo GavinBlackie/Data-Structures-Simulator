@@ -1,9 +1,12 @@
 package blackie.gavin.dsasimulatorserver.domain;
 
-public class Queue extends LinearStructure{
+import java.util.Queue;
+import java.util.LinkedList;
+
+public class RawQueue extends LinearStructure{
     // Remember LIFO: Last In, First Out
     // Will be a Circular Array Implementation!!
-    // https://www.geeksforgeeks.org/dsa/introduction-to-circular-queue-1/
+    // https://www.geeksforgeeks.org/dsa/introduction-to-circular-queue-1/ <-- this helped refresh some concepts for me
 
     //region Example Scenario
     // example scenario:
@@ -40,7 +43,7 @@ public class Queue extends LinearStructure{
     //endregion
 
     static void main() throws Exception {
-        Queue queue = new Queue(4);
+        RawQueue queue = new RawQueue(4);
         queue.enqueue(1);
         queue.enqueue(2);
         queue.enqueue(3);
@@ -49,6 +52,30 @@ public class Queue extends LinearStructure{
         System.out.println(queue.dequeue());
         queue.enqueue(5);
         queue.enqueue(555);
+
+
+        // Testing queue runtime!! (Apparently mine is WAY faster :) )
+        long startTime, endTime, elapsedTime;
+        RawQueue queue2 = new RawQueue();
+
+        startTime = System.nanoTime();
+        queue2.enqueue(1);
+        endTime = System.nanoTime();
+        elapsedTime = endTime - startTime;
+        System.out.println(elapsedTime);
+
+        startTime = System.nanoTime();
+        Queue<Integer> javaQueue = new LinkedList<Integer>();
+        javaQueue.offer(1);
+        endTime = System.nanoTime();
+        elapsedTime = endTime - startTime;
+        System.out.println(elapsedTime);
+
+        // Testing using Multithreading!!
+        Thread javaQueueThread =    new Thread(new JavaQueueRunnable() );
+        Thread rawQueueThread =     new Thread(new RawQueueRunnable() );
+        javaQueueThread.start();
+        rawQueueThread.start();
     }
 
     private int[] array;
@@ -57,14 +84,14 @@ public class Queue extends LinearStructure{
     private int size;
     private int capacity;
 
-    public Queue(int capacity) {
+    public RawQueue(int capacity) {
         this.capacity = capacity;
         array = new int[capacity];
         int front = 0;
         int rear = 0;
         int size = 0;
     }
-    public Queue() {
+    public RawQueue() {
         capacity = 10;
         array = new int[capacity];
         int front = 0;
