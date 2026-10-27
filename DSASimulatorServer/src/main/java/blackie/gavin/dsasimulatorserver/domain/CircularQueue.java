@@ -67,6 +67,7 @@ public class CircularQueue extends LinearStructure{
         startTime = System.nanoTime();
         Queue<Integer> javaQueue = new LinkedList<Integer>();
         javaQueue.offer(1);
+        System.out.println(javaQueue.element());
         endTime = System.nanoTime();
         elapsedTime = endTime - startTime;
         System.out.println(elapsedTime);
@@ -87,16 +88,16 @@ public class CircularQueue extends LinearStructure{
     public CircularQueue(int capacity) {
         this.capacity = capacity;
         array = new int[capacity];
-        int front = 0;
-        int rear = 0;
-        int size = 0;
+        front = 0;
+        rear = 0;
+        size = 0;
     }
     public CircularQueue() {
         capacity = 10;
         array = new int[capacity];
-        int front = 0;
-        int rear = 0;
-        int size = 0;
+        front = 0;
+        rear = 0;
+        size = 0;
     }
 
     public void enqueue(int element) {
@@ -131,7 +132,6 @@ public class CircularQueue extends LinearStructure{
     public boolean isEmpty() {
         return size <= 0;
     }
-    @Override
     public boolean isFull() {
         return size == capacity;
     }

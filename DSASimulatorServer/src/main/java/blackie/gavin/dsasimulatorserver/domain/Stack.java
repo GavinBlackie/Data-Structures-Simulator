@@ -67,14 +67,13 @@ public class Stack extends LinearStructure{
         return array[top--];
     }
 
-    @Override
     public boolean isFull() {
         return top == capacity - 1;
     }
 
     @Override
     public boolean isEmpty() {
-        return top == -1;
+        return top <= -1;
     }
 
     private void grow() {

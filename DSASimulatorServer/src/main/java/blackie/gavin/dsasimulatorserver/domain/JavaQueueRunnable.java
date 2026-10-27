@@ -10,10 +10,11 @@ public class JavaQueueRunnable implements Runnable {
         long startTime, endTime, elapsedTime;
         startTime = System.nanoTime();
 
-        Queue<Integer> queue = new LinkedList<Integer>();
+        Queue<Integer> queue = new LinkedList<>();
         for (int iTest = 0; iTest < 100; iTest++) {
             queue.offer(iTest);
         }
+        queue.element(); // just do a simple view to avoid warnings
         for (int iTest = 0; iTest < 100; iTest++) {
             queue.poll();
         }

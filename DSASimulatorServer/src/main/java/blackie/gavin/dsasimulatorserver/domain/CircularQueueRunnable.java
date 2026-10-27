@@ -15,7 +15,7 @@ public class CircularQueueRunnable implements Runnable{
             try {
                 queue.dequeue();
             } catch (Exception e) {
-                System.out.println(e.toString());
+                System.out.println(e.getMessage());
             }
         }
 
