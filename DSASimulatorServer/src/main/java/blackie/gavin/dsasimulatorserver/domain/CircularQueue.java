@@ -1,5 +1,8 @@
 package blackie.gavin.dsasimulatorserver.domain;
 
+import blackie.gavin.dsasimulatorserver.thread.CircularQueueRunnable;
+import blackie.gavin.dsasimulatorserver.thread.JavaQueueRunnable;
+
 import java.util.Queue;
 import java.util.LinkedList;
 
@@ -78,9 +81,9 @@ public class CircularQueue extends LinearStructure{
 
         // Testing using Multithreading!!
         Thread javaQueueThread =    new Thread(new JavaQueueRunnable() );
-        Thread rawQueueThread =     new Thread(new CircularQueueRunnable() );
+        Thread circularQueueThread =     new Thread(new CircularQueueRunnable() );
         javaQueueThread.start();
-        rawQueueThread.start();
+        circularQueueThread.start();
     }
 
     private int[] array;

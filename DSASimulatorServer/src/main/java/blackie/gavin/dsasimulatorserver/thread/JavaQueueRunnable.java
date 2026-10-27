@@ -1,4 +1,4 @@
-package blackie.gavin.dsasimulatorserver.domain;
+package blackie.gavin.dsasimulatorserver.thread;
 
 import java.util.LinkedList;
 import java.util.Queue;
