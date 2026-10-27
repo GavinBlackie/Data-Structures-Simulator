@@ -12,11 +12,7 @@ public class CircularQueueRunnable implements Runnable{
             queue.enqueue(iTest);
         }
         for (int iTest = 0; iTest < 100; iTest++) {
-            try {
-                queue.dequeue();
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
+            queue.dequeue();
         }
 
         endTime = System.nanoTime();

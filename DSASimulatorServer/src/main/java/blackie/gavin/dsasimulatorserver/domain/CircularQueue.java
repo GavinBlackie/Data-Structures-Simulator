@@ -42,7 +42,7 @@ public class CircularQueue extends LinearStructure{
      */
     //endregion
 
-    static void main() throws Exception {
+    static void main() {
         CircularQueue queue = new CircularQueue(4);
         queue.enqueue(1);
         queue.enqueue(2);
@@ -51,7 +51,11 @@ public class CircularQueue extends LinearStructure{
         System.out.println("IsFull?: " + queue.isFull());
         System.out.println(queue.dequeue());
         queue.enqueue(5);
-        queue.enqueue(555);
+        queue.enqueue(6); // will cause a grow!
+        queue.enqueue(7);
+        queue.enqueue(8);
+        queue.enqueue(9);
+        queue.enqueue(10); // will cause a grow!
 
 
         // Testing queue runtime!! (Apparently mine is WAY faster :) )
@@ -65,7 +69,7 @@ public class CircularQueue extends LinearStructure{
         System.out.println(elapsedTime);
 
         startTime = System.nanoTime();
-        Queue<Integer> javaQueue = new LinkedList<Integer>();
+        Queue<Integer> javaQueue = new LinkedList<>();
         javaQueue.offer(1);
         System.out.println(javaQueue.element());
         endTime = System.nanoTime();
@@ -101,10 +105,9 @@ public class CircularQueue extends LinearStructure{
     }
 
     public void enqueue(int element) {
-        // If the queue is full, we cannot enqueue
+        // If the queue is full, we cannot enqueue and must grow
         if ( isFull() ) {
-            System.out.println("Cannot enqueue a full queue");
-            return;
+            this.grow();
         }
 
         // Recalculate rear, adjust with modulus for capacity in-case it resets to other side
@@ -113,10 +116,10 @@ public class CircularQueue extends LinearStructure{
         array[rear] = element;
         size++;
     }
-    public int dequeue() throws Exception {
+    public Integer dequeue() {
         // If the queue is empty, then we cannot dequeue any elements
         if ( isEmpty() ) {
-            throw new Exception("Cannot dequeue from an empty queue");
+            return null; // return a null value if empty
         }
 
         // obtain the element at the "front of the line"
@@ -128,11 +131,32 @@ public class CircularQueue extends LinearStructure{
         return element;
     }
 
+    private void grow() {
+        int tempCapacity = capacity * 2;
+        int[] tempArray = new int[tempCapacity];
+
+        // Copy elements in correct order
+        // eg. [D, E, F, A, B, C] logically becomes [D, E, F, _, _, _, _, _, _, A, B, C],
+        //      but the literal equivalent created is [A, B, C, D, E, F, _, _, _, _, _, _]
+        int staticSize = this.size; // save size to avoid logic problems (dequeue decreases size)
+        for (int iDeq = 0; iDeq < staticSize; iDeq++) {
+            tempArray[iDeq] = this.dequeue();
+        }
+        front = 0;
+        if (staticSize > 0)
+            rear = staticSize-1;
+        else
+            rear = 0;
+        size = staticSize;
+        capacity = tempCapacity;
+        this.array = tempArray;
+    }
+
     @Override
     public boolean isEmpty() {
         return size <= 0;
     }
     public boolean isFull() {
-        return size == capacity;
+        return size >= capacity;
     }
 }
