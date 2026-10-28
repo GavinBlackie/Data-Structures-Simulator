@@ -23,6 +23,9 @@ public class LinkedList<T> extends LinearStructure{
         linkedList.remove(1); // D -> F -> B -> C -> Z
 
         linkedList.displayDetails();
+        // Test display a null linked list
+        LinkedList<Integer> linkedList2 = new LinkedList<>();
+        linkedList2.displayDetails();
     }
 
     public class Node {
@@ -145,16 +148,17 @@ public class LinkedList<T> extends LinearStructure{
 
     @Override
     public void displayDetails() {
-        String printMsg = "[";
+        String printMsg = "";
         Node current = head;
         while (current != null) {
-            printMsg += current.data.toString().concat(", ");
+            printMsg += current.data.toString().concat(" -> ");
             current = current.next;
         }
         if (current != head) {
-            printMsg = printMsg.substring(0, printMsg.length()-2 );
+            printMsg = printMsg.substring(0, printMsg.length()-3 );
+        } else {
+            printMsg = "A null LinkedList";
         }
-        printMsg += "]";
         System.out.println(printMsg);
     }
 }

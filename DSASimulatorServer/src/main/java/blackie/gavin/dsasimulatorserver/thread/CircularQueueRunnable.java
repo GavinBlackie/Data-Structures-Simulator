@@ -9,11 +9,11 @@ public class CircularQueueRunnable implements Runnable{
         long startTime, endTime, elapsedTime;
         startTime = System.nanoTime();
 
-        CircularQueue queue = new CircularQueue(100);
-        for (int iTest = 0; iTest < 100; iTest++) {
+        CircularQueue queue = new CircularQueue(1000);
+        for (int iTest = 0; iTest < 100000; iTest++) {
             queue.enqueue(iTest);
         }
-        for (int iTest = 0; iTest < 100; iTest++) {
+        for (int iTest = 0; iTest < 100000; iTest++) {
             queue.dequeue();
         }
 

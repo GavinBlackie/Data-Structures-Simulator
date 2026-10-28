@@ -45,7 +45,7 @@ public class CircularQueue extends LinearStructure{
      */
     //endregion
 
-    static void main() {
+    static void main() throws InterruptedException {
         CircularQueue queue = new CircularQueue(4);
         queue.enqueue(1);
         queue.enqueue(2);
@@ -87,12 +87,15 @@ public class CircularQueue extends LinearStructure{
         Thread javaQueueThread =    new Thread(new JavaQueueRunnable() );
         Thread circularQueueThread =     new Thread(new CircularQueueRunnable() );
         javaQueueThread.start();
+        // run the java thread immediately (avoid impacting memory space of circular queue), can optionally remove this
+        javaQueueThread.join();
         circularQueueThread.start();
+        circularQueueThread.join();
     }
 
     private int[] array;
     private int front;
-    private int rear;
+    //private int rear; // Rear is necessary for CircularQueues, but can be removed for efficiency!!
     private int size;
     private int capacity;
 
@@ -100,80 +103,134 @@ public class CircularQueue extends LinearStructure{
         this.capacity = capacity;
         array = new int[capacity];
         front = 0;
-        rear = 0;
+        //rear = 0;
         size = 0;
     }
     public CircularQueue() {
         capacity = 10;
         array = new int[capacity];
         front = 0;
-        rear = 0;
+        //rear = 0;
         size = 0;
     }
     // had to do a manual constructor to copy objects :(
     public CircularQueue(CircularQueue queue) {
         capacity = queue.capacity;
-        this.array = new int[capacity];
-        System.arraycopy(queue.array, 0, this.array, 0, queue.array.length);
+        this.array = queue.array.clone();
         front = queue.front;
-        rear = queue.rear;
+        //rear = queue.rear;
         size = queue.size;
     }
 
+    // Special Credit to Claude AI for helping me optimize my enqueue, dequeue, and grow methods!!
+    // (but I'm still keeping the old ones that rely on the "rear" field and % calculations as reference)
+
     public void enqueue(int element) {
         // If the queue is full, we cannot enqueue and must grow
-        if ( isFull() ) {
-            this.grow();
+        if (size == array.length) {
+            grow();
         }
-
-        // Recalculate rear, adjust with modulus for capacity in-case it resets to other side
-        rear = (front + size) % capacity;
-        // Add the element to the rear of "the cashier line"
+        int rear = front + size;
+        // Avoid costly % operations
+        if (rear >= array.length) {
+            rear -= array.length;
+        }
         array[rear] = element;
         size++;
     }
     public Integer dequeue() {
-        // If the queue is empty, then we cannot dequeue any elements
-        if ( isEmpty() ) {
-            return null; // return a null value if empty
+        if (size == 0) {
+            return null;
         }
-
-        // obtain the element at the "front of the line"
         int element = array[front];
-        array[front] = 0; // "null" the value
-        // Re-adjust
-        front = (front + 1) % capacity; // move front to the right
+        // replace cost % operation!! (from previous rear = (front + size) % capacity)
+        if (++front == array.length) {
+            front = 0;
+        }
         size--;
         return element;
     }
-
     private void grow() {
-        int tempCapacity = capacity * 2;
-        int[] tempArray = new int[tempCapacity];
-
+        int tempCapacity = array.length;
+        int[] bigger = new int[tempCapacity * 2];
+        int tail = tempCapacity - front;
         // Copy elements in correct order
-        // eg. [D, E, F, A, B, C] logically becomes [D, E, F, _, _, _, _, _, _, A, B, C],
-        //      but the literal equivalent created is [A, B, C, D, E, F, _, _, _, _, _, _]
-        int staticSize = this.size; // save size to avoid logic problems (dequeue decreases size)
-        for (int iDeq = 0; iDeq < staticSize; iDeq++) {
-            tempArray[iDeq] = this.dequeue();
-        }
+        //        // eg. [D, E, F, A, B, C] logically becomes [D, E, F, _, _, _, _, _, _, A, B, C],
+        //        //      but the literal equivalent created is [A, B, C, D, E, F, _, _, _, _, _, _]
+        //
+        // BUT use arraycopy function because it is more efficient!!
+        System.arraycopy(array, front, bigger, 0, tail);
+        System.arraycopy(array, 0, bigger, tail, front); // wrapped-around part
+        array = bigger;
         front = 0;
-        if (staticSize > 0)
-            rear = staticSize-1;
-        else
-            rear = 0;
-        size = staticSize;
-        capacity = tempCapacity;
-        this.array = tempArray;
     }
+
+    // Old enqueue, dequeue, and grow that I made by-hand from scratch (still relevant/I want to keep)
+//    public void enqueue(int element) {
+//        // If the queue is full, we cannot enqueue and must grow
+//        if ( isFull() ) {
+//            grow();
+//        }
+//
+//        // Recalculate rear, adjust with modulus for capacity in-case it resets to other side
+//        rear = (front + size) % capacity;
+//        // Add the element to the rear of "the cashier line"
+//        array[rear] = element;
+//        size++;
+//    }
+//    public void enqueue(int element) {
+//        // If the queue is full, we cannot enqueue and must grow
+//        if (size == array.length) // avoiding isFull() calls for efficiency
+//            grow();
+//        }
+//        int rear = front + size;
+//
+//        if (rear >= array.length) rear -= array.length; // replaces %
+//        array[rear] = element;
+////        size++;
+//    }
+//    public Integer dequeue() {
+//        // If the queue is empty, then we cannot dequeue any elements
+//        if ( isEmpty() ) {
+//            return null; // return a null value if empty
+//        }
+//
+//        // obtain the element at the "front of the line"
+//        int element = array[front];
+//        array[front] = 0; // "null" the value
+//        // Re-adjust
+//        front = (front + 1) % capacity; // move front to the right
+//        size--;
+//        return element;
+//    }
+//
+//    private void grow() {
+//        int tempCapacity = capacity * 2;
+//        int[] tempArray = new int[tempCapacity];
+//
+//        // Copy elements in correct order
+//        // eg. [D, E, F, A, B, C] logically becomes [D, E, F, _, _, _, _, _, _, A, B, C],
+//        //      but the literal equivalent created is [A, B, C, D, E, F, _, _, _, _, _, _]
+//        int staticSize = this.size; // save size to avoid logic problems (dequeue decreases size)
+//        for (int iDeq = 0; iDeq < staticSize; iDeq++) {
+//            tempArray[iDeq] = this.dequeue();
+//        }
+//        front = 0;
+////        if (staticSize > 0)
+////            rear = staticSize-1;
+////        else
+////            rear = 0;
+//        size = staticSize;
+//        capacity = tempCapacity;
+//        this.array = tempArray;
+//    }
 
     @Override
     public boolean isEmpty() {
-        return size <= 0;
+        return size == 0;
     }
     public boolean isFull() {
-        return size >= capacity;
+        return size == capacity;
     }
 
     @Override
