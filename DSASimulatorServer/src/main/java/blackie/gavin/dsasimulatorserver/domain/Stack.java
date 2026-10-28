@@ -35,7 +35,7 @@ public class Stack extends LinearStructure{
         System.out.println("IsFull?: " + stack.isFull() );
     }
 
-    int[] array;
+    private int[] array;
     private int capacity;
     private int top;
 
