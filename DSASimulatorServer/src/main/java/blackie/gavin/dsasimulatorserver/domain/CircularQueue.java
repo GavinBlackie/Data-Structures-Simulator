@@ -60,6 +60,10 @@ public class CircularQueue extends LinearStructure{
         queue.enqueue(9);
         queue.enqueue(10); // will cause a grow!
 
+        queue.displayDetails();
+
+        CircularQueue testQueue = new CircularQueue();
+        testQueue.displayDetails();
 
         // Testing queue runtime!! (Apparently mine is WAY faster :) )
         long startTime, endTime, elapsedTime;
@@ -105,6 +109,15 @@ public class CircularQueue extends LinearStructure{
         front = 0;
         rear = 0;
         size = 0;
+    }
+    // had to do a manual constructor to copy objects :(
+    public CircularQueue(CircularQueue queue) {
+        capacity = queue.capacity;
+        this.array = new int[capacity];
+        System.arraycopy(queue.array, 0, this.array, 0, queue.array.length);
+        front = queue.front;
+        rear = queue.rear;
+        size = queue.size;
     }
 
     public void enqueue(int element) {
@@ -161,5 +174,21 @@ public class CircularQueue extends LinearStructure{
     }
     public boolean isFull() {
         return size >= capacity;
+    }
+
+    @Override
+    public void displayDetails() {
+        String printMsg = "[";
+        CircularQueue queueCopy = new CircularQueue(this);
+        Integer n = queueCopy.dequeue();
+        while (n != null) {
+            printMsg += n + ", ";
+            n = queueCopy.dequeue();
+        }
+        if (this.size != 0) {
+            printMsg = printMsg.substring(0, printMsg.length() - 2);
+        }
+        printMsg += "]";
+        System.out.println(printMsg);
     }
 }

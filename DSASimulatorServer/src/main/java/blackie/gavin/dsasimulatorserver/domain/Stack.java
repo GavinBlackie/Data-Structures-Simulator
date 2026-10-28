@@ -10,6 +10,7 @@ public class Stack extends LinearStructure{
     static void main() {
         Stack stack = new Stack();
 
+
         System.out.println("IsEmpty?: " + stack.isEmpty() );
         System.out.println("IsFull?: " + stack.isFull() );
 
@@ -17,6 +18,10 @@ public class Stack extends LinearStructure{
             stack.push(iCount);
             System.out.println("push: " + iCount);
         }
+        stack.displayDetails();
+        Stack stack2 = new Stack();
+        stack2.displayDetails();
+
         System.out.println("IsEmpty?: " + stack.isEmpty() );
         System.out.println("IsFull?: " + stack.isFull() );
 
@@ -26,6 +31,8 @@ public class Stack extends LinearStructure{
         stack.push(11);
         System.out.println("Capacity: " + stack.capacity);
         System.out.println("IsFull?: " + stack.isFull() + "\n");
+
+        stack.displayDetails();
 
         for (int iCount = 10; iCount > 0; iCount--) {
             System.out.println("pop: " + stack.pop());
@@ -82,6 +89,19 @@ public class Stack extends LinearStructure{
         // Copy original contents into new array using arrayCopy function!
         System.arraycopy(array, 0, temp, 0, array.length);
         array = temp; // swap to larger temp array
+    }
+
+    @Override
+    public void displayDetails() {
+        String printMsg = "[";
+        for (int i = 0; i < top; i++) {
+            printMsg += array[i] + ", ";
+        }
+        if (top >= 1) {
+            printMsg = printMsg.substring(0, printMsg.length() - 2);
+        }
+        printMsg += "]";
+        System.out.println(printMsg);
     }
     // endregion
 }

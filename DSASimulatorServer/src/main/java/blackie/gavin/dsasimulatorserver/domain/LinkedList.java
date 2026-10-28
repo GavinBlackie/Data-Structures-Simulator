@@ -13,12 +13,16 @@ public class LinkedList<T> extends LinearStructure{
         linkedList.insert(1, 'D'); // A -> D -> B -> C
         linkedList.insert(2, 'E'); // A -> D -> E -> B -> C
 
+        linkedList.displayDetails();
+
         linkedList.insertLast('Z');
         linkedList.insertLast('Y');
         linkedList.removeLast();
         linkedList.removeFirst(); // D -> E -> B -> C -> Z
         linkedList.insert(2, 'F');
         linkedList.remove(1); // D -> F -> B -> C -> Z
+
+        linkedList.displayDetails();
     }
 
     public class Node {
@@ -137,5 +141,20 @@ public class LinkedList<T> extends LinearStructure{
     @Override
     public boolean isEmpty() {
         return size <= 0;
+    }
+
+    @Override
+    public void displayDetails() {
+        String printMsg = "[";
+        Node current = head;
+        while (current != null) {
+            printMsg += current.data.toString().concat(", ");
+            current = current.next;
+        }
+        if (current != head) {
+            printMsg = printMsg.substring(0, printMsg.length()-2 );
+        }
+        printMsg += "]";
+        System.out.println(printMsg);
     }
 }
