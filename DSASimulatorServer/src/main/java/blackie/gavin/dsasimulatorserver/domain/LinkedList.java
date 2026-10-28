@@ -6,11 +6,20 @@ public class LinkedList<T> extends LinearStructure{
 
     static void main() {
         LinkedList<Character> linkedList = new LinkedList<>();
+        System.out.println("IsEmpty?: " + linkedList.isEmpty());
         linkedList.insertFirst('B'); // B
         linkedList.insertFirst('A'); // A -> B
         linkedList.insertLast('C'); // A -> B -> C
+        linkedList.insert(1, 'D'); // A -> D -> B -> C
+        linkedList.insert(2, 'E'); // A -> D -> E -> B -> C
+
+        linkedList.insertLast('Z');
+        linkedList.insertLast('Y');
+        linkedList.removeLast();
+        linkedList.removeFirst(); // D -> E -> B -> C -> Z
+        linkedList.insert(2, 'F');
+        linkedList.remove(1); // D -> F -> B -> C -> Z
     }
-    
 
     public class Node {
         public T data;
@@ -40,6 +49,7 @@ public class LinkedList<T> extends LinearStructure{
             prev = current;
             current = current.next;
         }
+        size++;
     }
     public void insert(int index, T value) {
         if (index >= size || index < 0) // stop trying if the index is out of the size range
@@ -48,9 +58,9 @@ public class LinkedList<T> extends LinearStructure{
         Node current = head;
         Node prev = null;
 
-        // Traverse exactly "index" - 1 times
+        // Traverse exactly "index" times
         int jCount = 0;
-        while (current.next != null && jCount < index - 1) {
+        while ((current.next != null) && (jCount < index)) {
             prev = current;
             current = current.next;
             jCount++;
@@ -58,9 +68,10 @@ public class LinkedList<T> extends LinearStructure{
         // Insert the element between prev and curr
         if (prev != null) {
             prev.next = new Node(value, current);
-        } else { // else its at the front, index = 0
-            Node node = new Node(value, current);
+        } else { // else it is at the front, index = 0
+            head = new Node(value, head);
         }
+        size++;
     }
     public void insertFirst(T value) {
         head = new Node(value, head);
@@ -76,18 +87,20 @@ public class LinkedList<T> extends LinearStructure{
         current.next = new Node(value, null);
         size++;
     }
-    public void delete(Node position) {
+    public void remove(Node position) {
         // Traverse until we reach that position
         Node current = head;
         while (current.next.next != null) {
             if (current.next.equals(position) ) {
                 // Link current with the one after that position, let Java delete current.next with garbage collection
                 current.next = current.next.next;
+                size--;
+                return;
             }
             current = current.next;
         }
     }
-    public void delete(int index) {
+    public void remove(int index) {
         if (index >= size || index < 0) // stop trying if the index is out of the size range
             return;
         // Traverse exactly "index" - 1 times
@@ -105,17 +118,20 @@ public class LinkedList<T> extends LinearStructure{
         else {
             current.next = null;
         }
+        size--;
     }
-    public void deleteFirst() {
+    public void removeFirst() {
         head = head.next;
+        size--;
     }
-    public void deleteLast() {
+    public void removeLast() {
         // Traverse until second last node, then delete
         Node current = head;
         while (current.next.next != null) {
             current = current.next;
         }
         current.next = null;
+        size--;
     }
 
     @Override
