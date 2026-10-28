@@ -1,6 +1,6 @@
 package blackie.gavin.dsasimulatorserver.thread;
 
-import blackie.gavin.dsasimulatorserver.domain.CircularQueue;
+import blackie.gavin.dsasimulatorserver.domain.Linear.CircularQueue;
 
 public class CircularQueueRunnable implements Runnable{
 

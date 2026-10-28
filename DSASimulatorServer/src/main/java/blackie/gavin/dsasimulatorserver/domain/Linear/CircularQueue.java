@@ -1,4 +1,4 @@
-package blackie.gavin.dsasimulatorserver.domain;
+package blackie.gavin.dsasimulatorserver.domain.Linear;
 
 import blackie.gavin.dsasimulatorserver.thread.CircularQueueRunnable;
 import blackie.gavin.dsasimulatorserver.thread.JavaQueueRunnable;

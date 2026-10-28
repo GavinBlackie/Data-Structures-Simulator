@@ -1,4 +1,4 @@
-package blackie.gavin.dsasimulatorserver.domain;
+package blackie.gavin.dsasimulatorserver.domain.Linear;
 
 public class Stack extends LinearStructure{
 

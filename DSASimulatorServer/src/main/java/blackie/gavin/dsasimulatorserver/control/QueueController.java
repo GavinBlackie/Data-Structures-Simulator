@@ -1,11 +1,10 @@
 package blackie.gavin.dsasimulatorserver.control;
 
-import blackie.gavin.dsasimulatorserver.domain.CircularQueue;
+import blackie.gavin.dsasimulatorserver.domain.Linear.CircularQueue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
-import blackie.gavin.dsasimulatorserver.domain.Stack;
+import blackie.gavin.dsasimulatorserver.domain.Linear.Stack;
 
 @RestController
 public class QueueController {
