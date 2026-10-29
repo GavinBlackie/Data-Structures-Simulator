@@ -97,25 +97,25 @@ public class CircularQueue extends LinearStructure{
     private int front;
     //private int rear; // Rear is necessary for CircularQueues, but can be removed for efficiency!!
     private int size;
-    private int capacity;
+    //private int capacity; // Capacity is good for learning, but it can be removed for better Memory Complexity!!
 
     public CircularQueue(int capacity) {
-        this.capacity = capacity;
+        //this.capacity = capacity;
         array = new int[capacity];
         front = 0;
         //rear = 0;
         size = 0;
     }
     public CircularQueue() {
-        capacity = 10;
-        array = new int[capacity];
+        //capacity = 10;
+        array = new int[10];
         front = 0;
         //rear = 0;
         size = 0;
     }
     // had to do a manual constructor to copy objects :(
     public CircularQueue(CircularQueue queue) {
-        capacity = queue.capacity;
+        //capacity = queue.capacity;
         this.array = queue.array.clone();
         front = queue.front;
         //rear = queue.rear;
@@ -162,6 +162,7 @@ public class CircularQueue extends LinearStructure{
         System.arraycopy(array, front, bigger, 0, tail);
         System.arraycopy(array, 0, bigger, tail, front); // wrapped-around part
         array = bigger;
+        //capacity *= 2;
         front = 0;
     }
 
@@ -227,10 +228,10 @@ public class CircularQueue extends LinearStructure{
 
     @Override
     public boolean isEmpty() {
-        return size == 0;
+        return size <= 0;
     }
     public boolean isFull() {
-        return size == capacity;
+        return size >= array.length;
     }
 
     @Override
