@@ -93,14 +93,14 @@ public class Stack extends LinearStructure{
 
     @Override
     public void displayDetails() {
-        String printMsg = "[";
+        StringBuilder printMsg = new StringBuilder("[");
         for (int i = 0; i < top; i++) {
-            printMsg += array[i] + ", ";
+            printMsg.append(array[i]).append(", ");
         }
         if (top >= 1) {
-            printMsg = printMsg.substring(0, printMsg.length() - 2);
+            printMsg = new StringBuilder(printMsg.substring(0, printMsg.length() - 2));
         }
-        printMsg += "]";
+        printMsg.append("]");
         System.out.println(printMsg);
     }
     // endregion

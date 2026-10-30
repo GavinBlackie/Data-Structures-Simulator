@@ -188,7 +188,7 @@ public class CircularQueue extends LinearStructure{
 //
 //        if (rear >= array.length) rear -= array.length; // replaces %
 //        array[rear] = element;
-////        size++;
+//        size++;
 //    }
 //    public Integer dequeue() {
 //        // If the queue is empty, then we cannot dequeue any elements
@@ -236,17 +236,17 @@ public class CircularQueue extends LinearStructure{
 
     @Override
     public void displayDetails() {
-        String printMsg = "[";
+        StringBuilder printMsg = new StringBuilder("[");
         CircularQueue queueCopy = new CircularQueue(this);
         Integer n = queueCopy.dequeue();
         while (n != null) {
-            printMsg += n + ", ";
+            printMsg.append(n).append(", ");
             n = queueCopy.dequeue();
         }
         if (this.size != 0) {
-            printMsg = printMsg.substring(0, printMsg.length() - 2);
+            printMsg = new StringBuilder(printMsg.substring(0, printMsg.length() - 2));
         }
-        printMsg += "]";
+        printMsg.append("]");
         System.out.println(printMsg);
     }
 }
