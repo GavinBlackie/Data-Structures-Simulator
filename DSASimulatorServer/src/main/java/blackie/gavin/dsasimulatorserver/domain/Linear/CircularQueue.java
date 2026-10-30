@@ -1,7 +1,7 @@
 package blackie.gavin.dsasimulatorserver.domain.Linear;
 
-import blackie.gavin.dsasimulatorserver.thread.CircularQueueRunnable;
-import blackie.gavin.dsasimulatorserver.thread.JavaQueueRunnable;
+import blackie.gavin.dsasimulatorserver.thread.CircularQueueTestRunnable;
+import blackie.gavin.dsasimulatorserver.thread.JavaQueueTestRunnable;
 
 import java.util.Queue;
 import java.util.LinkedList;
@@ -84,8 +84,8 @@ public class CircularQueue implements LinearStructure{
         System.out.println(elapsedTime);
 
         // Testing using Multithreading!!
-        Thread javaQueueThread =    new Thread(new JavaQueueRunnable() );
-        Thread circularQueueThread =     new Thread(new CircularQueueRunnable() );
+        Thread javaQueueThread =    new Thread(new JavaQueueTestRunnable() );
+        Thread circularQueueThread =     new Thread(new CircularQueueTestRunnable() );
         javaQueueThread.start();
         // run the java thread immediately (avoid impacting memory space of circular queue), can optionally remove this
         javaQueueThread.join();

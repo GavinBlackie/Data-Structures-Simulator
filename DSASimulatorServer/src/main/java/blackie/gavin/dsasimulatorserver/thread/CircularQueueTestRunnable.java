@@ -1,26 +1,24 @@
 package blackie.gavin.dsasimulatorserver.thread;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import blackie.gavin.dsasimulatorserver.domain.Linear.CircularQueue;
 
-public class JavaQueueRunnable implements Runnable {
+public class CircularQueueTestRunnable implements Runnable{
 
     @Override
     public void run() {
         long startTime, endTime, elapsedTime;
         startTime = System.nanoTime();
 
-        Queue<Integer> queue = new LinkedList<>();
+        CircularQueue queue = new CircularQueue(1000);
         for (int iTest = 0; iTest < 100000; iTest++) {
-            queue.offer(iTest);
+            queue.enqueue(iTest);
         }
-        queue.element(); // just do a simple view to avoid warnings
         for (int iTest = 0; iTest < 100000; iTest++) {
-            queue.poll();
+            queue.dequeue();
         }
 
         endTime = System.nanoTime();
         elapsedTime = endTime - startTime;
-        System.out.println("JavaQueueRunnable Elapsed Time: " + elapsedTime);
+        System.out.println("CircularQueueRunnable Elapsed Time: " + elapsedTime);
     }
 }

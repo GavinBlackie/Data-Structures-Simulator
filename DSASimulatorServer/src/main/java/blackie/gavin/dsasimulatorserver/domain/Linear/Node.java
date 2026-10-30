@@ -2,6 +2,7 @@ package blackie.gavin.dsasimulatorserver.domain.Linear;
 
 public class Node<T> {
     public T data;
+    public Node<T> prev;
     public Node<T> next;
     public Node(T data, Node<T> next) {
         this.data = data;

@@ -109,11 +109,6 @@ public class Singly<T> extends LinkedList<T>{
         size++;
     }
     @Override
-    public void insertFirst(T value) {
-        head = new Node<>(value, head);
-        size++;
-    }
-    @Override
     public void insertLast(T value) {
         // Traverse until the next node is null (reached the last node)
         Node<T> current = head;
@@ -160,11 +155,6 @@ public class Singly<T> extends LinkedList<T>{
         size--;
     }
     @Override
-    public void removeFirst() {
-        head = head.next;
-        size--;
-    }
-    @Override
     public void removeLast() {
         // Traverse until second last node, then delete
         Node<T> current = head;
@@ -201,17 +191,6 @@ public class Singly<T> extends LinkedList<T>{
             }
         }
         return current;
-    }
-    @Override
-    public void clear() {
-        // Removes head, let Java's garbage collection handle the rest
-        head = null;
-        size = 0;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size <= 0;
     }
 
     @Override
