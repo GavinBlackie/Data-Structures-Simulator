@@ -67,9 +67,9 @@ public class LinkedList<T> extends LinearStructure{
 
                 // case that the position is the first node
                 if (prev == null) {
-                    head = new Node<T>(value, current);
+                    head = new Node<>(value, current);
                 } else {
-                    prev.next = new Node<T>(value, current);
+                    prev.next = new Node<>(value, current);
                 }
                 return;
             }
@@ -82,7 +82,7 @@ public class LinkedList<T> extends LinearStructure{
         if (index > size || index < 0) // stop trying if the index is out of the size range
             return;
         if (index == 0) {
-            head = new Node<T> (value, null);
+            head = new Node<> (value, null);
             size++;
             return;
         }
@@ -99,14 +99,14 @@ public class LinkedList<T> extends LinearStructure{
         }
         // Insert the element between prev and curr
         if (prev != null) {
-            prev.next = new Node<T>(value, current);
+            prev.next = new Node<>(value, current);
         } else { // else it is at the front, prev is null, so just add it to the existing head node
-            head.next = new Node<T>(value, null);
+            head.next = new Node<>(value, null);
         }
         size++;
     }
     public void insertFirst(T value) {
-        head = new Node<T>(value, head);
+        head = new Node<>(value, head);
         size++;
     }
     public void insertLast(T value) {
@@ -116,7 +116,7 @@ public class LinkedList<T> extends LinearStructure{
             current = current.next;
         }
         // Add a new node
-        current.next = new Node<T>(value, null);
+        current.next = new Node<>(value, null);
         size++;
     }
     public void remove(Node<T> position) {
@@ -176,14 +176,14 @@ public class LinkedList<T> extends LinearStructure{
             current = current.next;
         }
         // Return an empty node if nothing found (can be changed to a thrown exception later)
-        return new Node<T>(null, null);
+        return new Node<>(null, null);
     }
     public Node<T> find(int index) {
         Node<T> current = head;
         for (int jNode = 0; jNode < index; jNode++) {
             // If node does not exist, return an empty node
             if (current == null) {
-                return new Node<T>(null, null);
+                return new Node<>(null, null);
             }
             else {
                 current = current.next;
@@ -204,16 +204,16 @@ public class LinkedList<T> extends LinearStructure{
 
     @Override
     public void displayDetails() {
-        String printMsg = "";
+        StringBuilder printMsg = new StringBuilder();
         Node<T> current = head;
         while (current != null) {
-            printMsg += current.data.toString().concat(" -> ");
+            printMsg.append(current.data.toString().concat(" -> "));
             current = current.next;
         }
         if (current != head) {
-            printMsg = printMsg.substring(0, printMsg.length()-3 );
+            printMsg = new StringBuilder(printMsg.substring(0, printMsg.length() - 3));
         } else {
-            printMsg = "head -> null";
+            printMsg = new StringBuilder("head -> null");
         }
         System.out.println(printMsg);
     }
