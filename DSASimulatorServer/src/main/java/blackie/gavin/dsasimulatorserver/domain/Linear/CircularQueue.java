@@ -6,7 +6,7 @@ import blackie.gavin.dsasimulatorserver.thread.JavaQueueRunnable;
 import java.util.Queue;
 import java.util.LinkedList;
 
-public class CircularQueue extends LinearStructure{
+public class CircularQueue implements LinearStructure{
     // Remember LIFO: Last In, First Out
     // Will be a Circular Array Implementation!!
     // https://www.geeksforgeeks.org/dsa/introduction-to-circular-queue-1/ <-- this helped refresh some concepts for me

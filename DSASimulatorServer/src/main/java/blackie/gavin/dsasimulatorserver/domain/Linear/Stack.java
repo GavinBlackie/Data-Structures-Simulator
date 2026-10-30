@@ -1,6 +1,6 @@
 package blackie.gavin.dsasimulatorserver.domain.Linear;
 
-public class Stack extends LinearStructure{
+public class Stack implements LinearStructure{
 
 //    static {
 //        System.loadLibrary("DSALogicLibrary");

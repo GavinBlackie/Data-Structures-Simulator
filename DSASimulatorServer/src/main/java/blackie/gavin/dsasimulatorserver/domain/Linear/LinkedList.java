@@ -2,7 +2,7 @@ package blackie.gavin.dsasimulatorserver.domain.Linear;
 
 /* Represents an implementation of a singly linked list
  */
-public class LinkedList<T> extends LinearStructure{
+public class LinkedList<T> implements LinearStructure{
 
     static void main() {
         LinkedList<Character> linkedList = new LinkedList<>();
