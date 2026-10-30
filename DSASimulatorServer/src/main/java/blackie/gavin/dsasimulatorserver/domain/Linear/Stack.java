@@ -103,5 +103,12 @@ public class Stack implements LinearStructure{
         printMsg.append("]");
         System.out.println(printMsg);
     }
+
+    @Override
+    public void clear() {
+        capacity = 10;
+        array = new int[capacity];
+        top = -1;
+    }
     // endregion
 }

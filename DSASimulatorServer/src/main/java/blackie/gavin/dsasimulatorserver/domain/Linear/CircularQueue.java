@@ -235,6 +235,13 @@ public class CircularQueue implements LinearStructure{
     }
 
     @Override
+    public void clear() {
+        array = new int[array.length];
+        front = 0;
+        size = 0;
+    }
+
+    @Override
     public void displayDetails() {
         StringBuilder printMsg = new StringBuilder("[");
         CircularQueue queueCopy = new CircularQueue(this);
