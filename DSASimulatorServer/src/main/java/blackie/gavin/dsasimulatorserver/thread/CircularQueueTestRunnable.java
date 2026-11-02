@@ -10,10 +10,10 @@ public class CircularQueueTestRunnable implements Runnable{
         startTime = System.nanoTime();
 
         CircularQueue queue = new CircularQueue(1000);
-        for (int iTest = 0; iTest < 100000; iTest++) {
+        for (int iTest = 0; iTest < 1000000; iTest++) {
             queue.enqueue(iTest);
         }
-        for (int iTest = 0; iTest < 100000; iTest++) {
+        for (int iTest = 0; iTest < 1000000; iTest++) {
             queue.dequeue();
         }
 

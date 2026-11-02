@@ -28,7 +28,7 @@ public abstract class LinkedList<T> implements LinearStructure{
     public boolean isEmpty() {
         return size <= 0;
     }
-    // Clear method might need more specific reseting if required (eg. need to also reset tail of a doubly linked list)
+    // Clear method might need more specific resetting if required (eg. need to also reset tail of a doubly linked list)
     @Override
     public void clear() {
         // Removes head, let Java's garbage collection handle the rest
