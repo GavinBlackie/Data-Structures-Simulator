@@ -18,7 +18,7 @@ public class Doubly<T> extends LinkedList<T> {
         linkedList.insertLast('D');  // head -> A <-> B <-> C <-> D <- tail
         linkedList.displayDetails();
 
-        LinkedList<String> fruits = new Doubly<>();
+        Doubly<String> fruits = new Doubly<>();
         fruits.insertLast("Apple");
         fruits.insertFirst("Pear");
         fruits.insertLast("Banana"); // head -> Pear <-> Apple <-> Banana <- tail
@@ -29,8 +29,11 @@ public class Doubly<T> extends LinkedList<T> {
         Node<String> findResult = fruits.find(1);
         System.out.println("Find Result: " + findResult.data);
         fruits.insert(findResult, "Pear");
-        //Doubly<String> doublyFruits = (Doubly<String>) fruits;
-        //doublyFruits.insert(doublyFruits.tail, "Coconut");
+        fruits.insert(fruits.tail, "Coconut");
+        fruits.displayDetails();
+
+        fruits.remove(fruits.tail);
+        fruits.remove(fruits.head.next.next);
         fruits.displayDetails();
     }
 
@@ -86,7 +89,28 @@ public class Doubly<T> extends LinkedList<T> {
 
     @Override
     public void remove(Node<T> position) {
+        if (position == null)
+            throw new IllegalArgumentException("Position cannot be null");
 
+        // 1. Update "left" neighbour, or move 'head' forward if position is the first node
+        if (position.prev != null) {
+            position.prev.next = position.next;
+        } else {
+            head = position.next;
+        }
+
+        // 2. Update "right" neighbour, or move 'tail' backwards if position is actually the last node
+        if (position.next != null) {
+            position.next.prev = position.prev;
+        } else {
+            tail = position.prev;
+        }
+        // 3. "Optional" cleanup (would do more of this if it was in C/C++)
+        position.prev = null;
+        position.next = null;
+
+        // 4. Change the size of the list
+        size--;
     }
 
     @Override
@@ -161,7 +185,6 @@ public class Doubly<T> extends LinkedList<T> {
 
     @Override
     public void displayDetails() {
-        // TODO: generalize this code for both linkedlist types
         StringBuilder printMsg = new StringBuilder();
         Node<T> current = head;
         while (current != null) {
