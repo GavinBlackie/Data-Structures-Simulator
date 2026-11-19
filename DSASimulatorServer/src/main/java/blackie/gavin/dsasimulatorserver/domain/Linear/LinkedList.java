@@ -26,7 +26,7 @@ public abstract class LinkedList<T> implements LinearStructure{
     public abstract void removeLast();
     public abstract Node<T> search(T target);
     public Node<T> search(Node<T> targetNode) {
-        return search(targetNode.data);
+        return targetNode == null ? null : search(targetNode.data);
     }
     public abstract Node<T> find(int index);
     @Override
