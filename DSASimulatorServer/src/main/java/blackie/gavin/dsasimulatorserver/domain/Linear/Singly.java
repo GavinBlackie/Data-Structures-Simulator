@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 
 /* Represents an implementation of a singly linked list
  */
-public class Singly<T> extends LinkedList<T>{
+public class Singly<T> extends LinkedList<T> {
 
     // A basic test case for singly linked lists, may be replaced with a designated testing class
     static void main() {
@@ -12,9 +12,9 @@ public class Singly<T> extends LinkedList<T>{
         System.out.println("IsEmpty?: " + linkedList.isEmpty());
         linkedList.insertFirst('B'); // B
         linkedList.insertFirst('A'); // A -> B
-        linkedList.insertLast('C'); // A -> B -> C
-        linkedList.insert(1, 'D'); // A -> D -> B -> C
-        linkedList.insert(2, 'E'); // A -> D -> E -> B -> C
+        linkedList.insertLast('C');  // A -> B -> C
+        linkedList.insert(1, 'D');   // A -> D -> B -> C
+        linkedList.insert(2, 'E');   // A -> D -> E -> B -> C
 
         linkedList.displayDetails();
 
@@ -23,12 +23,12 @@ public class Singly<T> extends LinkedList<T>{
         linkedList.removeLast();
         linkedList.removeFirst(); // D -> E -> B -> C -> Z
         linkedList.insert(2, 'F');
-        linkedList.remove(1); // D -> F -> B -> C -> Z
+        linkedList.remove(1);     // D -> F -> B -> C -> Z
 
         linkedList.displayDetails();
         linkedList.clear();
         linkedList.displayDetails();
-        linkedList.insert(2, 'A'); // won't insert anything (index 2 not accessible/DNE)
+        linkedList.insert(2, 'A');  // won't insert anything (index 2 not accessible/DNE)
         linkedList.insert(-4, 'B'); // also won't work (trying to insert to negative index)
         linkedList.insert(0, 'A');
         linkedList.displayDetails();
@@ -41,7 +41,7 @@ public class Singly<T> extends LinkedList<T>{
         fruits.displayDetails();
 
         Node<String> orange = fruits.search("Orange");
-        System.out.println("Searched and Found: " + orange.data);
+        System.out.println("Searched and Found: " + (orange != null ? orange.data : "null"));
         int searchIndex = 1;
         Node<String> banana = fruits.find(searchIndex);
         System.out.println("Found " + banana.data + " at index " + searchIndex);
@@ -60,42 +60,54 @@ public class Singly<T> extends LinkedList<T>{
 
     @Override
     public void insert(Node<T> position, T value) {
-        if (position == null)
-            throw new IllegalArgumentException("Position cannot be null");
-
-        // Case that the position is the first node
-        if (position == head) {
-            insertFirst(value);
+        // Cannot insert by position node if there is no list at all
+        if (head == null || position == null)
             return;
-        }
 
-        // 1. Create the new node, insert it between position's previous node and position
-        Node<T> newNode = new Node<>(value, position.prev, position);
+        Node<T> current = head;
+        Node<T> prev = null;
+        while (current != null) {
+            if (current.equals(position)) {
 
-        // 2. Link position's previous node forward to the new node
-        if (position.prev != null) {
-            position.prev.next = newNode;
+                // case that the position is the first node
+                if (prev == null) {
+                    head = new Node<>(value, current);
+                } else {
+                    prev.next = new Node<>(value, current);
+                }
+                size++;
+                return;
+            }
+            prev = current;
+            current = current.next;
         }
-        // 3. Always link position back to the new node
-        position.prev = newNode;
-        size++;
     }
 
     @Override
     public void insert(int index, T value) {
         if (index > size || index < 0) // stop trying if the index is out of the size range
-            throw new IndexOutOfBoundsException("Index " + index + " out of range, Size: " + size);
-
+            return;
         if (index == 0) {
             insertFirst(value);
-        } else if (index == size) {
-            insertLast(value);
-        } else {
-            // Inserts BEFORE the node currently at 'index', placing the new node AT 'index'
-            this.insert(this.find(index), value);
+            return;
         }
-    }
 
+        Node<T> current = head;
+        Node<T> prev = null;
+
+        // Traverse exactly "index" times
+        int jCount = 0;
+        while ((current != null) && (jCount < index)) {
+            prev = current;
+            current = current.next;
+            jCount++;
+        }
+        // Insert the element between prev and curr
+        if (prev != null) {
+            prev.next = new Node<>(value, current);
+        }
+        size++;
+    }
 
     @Override
     public void insertLast(T value) {
@@ -209,7 +221,6 @@ public class Singly<T> extends LinkedList<T>{
         }
         return current;
     }
-
 
     @Override
     public void displayDetails() {
