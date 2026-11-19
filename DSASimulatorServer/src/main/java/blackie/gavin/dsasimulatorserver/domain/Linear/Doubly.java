@@ -1,6 +1,7 @@
 package blackie.gavin.dsasimulatorserver.domain.Linear;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -34,6 +35,9 @@ public class Doubly<T> extends LinkedList<T> {
 
         fruits.remove(fruits.tail);
         fruits.remove(fruits.head.next.next);
+        fruits.displayDetails();
+        fruits.removeLast();
+        fruits.removeLast();
         fruits.displayDetails();
     }
 
@@ -69,7 +73,7 @@ public class Doubly<T> extends LinkedList<T> {
 
     @Override
     public void insert(int index, T value) {
-
+        this.insert(this.find(index), value);
     }
 
     @Override
@@ -85,6 +89,19 @@ public class Doubly<T> extends LinkedList<T> {
             tail = head;
         }
         size++;
+    }
+
+    @Override
+    public void removeFirst() {
+        super.removeFirst();
+
+        if (head != null) {
+            // Detach the old head's reference from the new head
+            head.prev = null;
+        } else {
+            // The list just became empty, so reset tail to null too
+            tail = null;
+        }
     }
 
     @Override
@@ -115,12 +132,23 @@ public class Doubly<T> extends LinkedList<T> {
 
     @Override
     public void remove(int index) {
-
+        // Remove the element at the found index (utilise the find method)
+        this.remove(this.find(index));
     }
 
     @Override
     public void removeLast() {
-
+        if (tail == null)
+            throw new NoSuchElementException("Cannot remove from an empty list");
+        // Null both head and tail if there is only 1 element, set tail back otherwise
+        if (head == tail) {
+            head = null;
+            tail = null;
+        } else {
+            tail = tail.prev;
+            tail.next = null;
+        }
+        size--;
     }
 
     @Override

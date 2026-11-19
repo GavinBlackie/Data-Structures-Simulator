@@ -1,5 +1,7 @@
 package blackie.gavin.dsasimulatorserver.domain.Linear;
 
+import java.util.NoSuchElementException;
+
 public abstract class LinkedList<T> implements LinearStructure{
 
     protected Node<T> head = null;
@@ -15,6 +17,9 @@ public abstract class LinkedList<T> implements LinearStructure{
     public abstract void remove(Node<T> position);
     public abstract void remove(int index);
     public void removeFirst() {
+        if (head == null) {
+            throw new NoSuchElementException("Cannot remove from an empty list");
+        }
         head = head.next;
         size--;
     }
