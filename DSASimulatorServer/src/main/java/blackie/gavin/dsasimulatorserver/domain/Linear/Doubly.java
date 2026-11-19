@@ -24,8 +24,10 @@ public class Doubly<T> extends LinkedList<T> {
         fruits.insertLast("Banana"); // head -> Pear <-> Apple <-> Banana <- tail
         fruits.displayDetails();
 
-        Node<String> foundBanana = fruits.search("Banana");
-        System.out.println("Searched and found: " + foundBanana.data);
+        Node<String> searchResult = fruits.search("Banana");
+        System.out.println("Search Result: " + searchResult.data);
+        Node<String> findResult = fruits.find(1);
+        System.out.println("Find Result: " + findResult.data);
     }
 
     @Override
@@ -119,7 +121,24 @@ public class Doubly<T> extends LinkedList<T> {
 
     @Override
     public Node<T> find(int index) {
-        return null;
+        // 1. Validate bounds
+        if (index < 0 || index >= size)
+            throw new IndexOutOfBoundsException("Index" + index + " out of range, Size: " + size);
+        Node<T> current;
+
+        // 2. Pick a closer end and search
+        // (No need to multi-thread, just calculate which end is better to start at)
+        if (index < size / 2) {
+            current = head;
+            for (int iList = 0; iList < index; iList ++)
+                current = current.next;
+        } else {
+            current = tail;
+            for (int iList = size-1; iList > index; iList--)
+                current = current.prev;
+        }
+        // 3. Return the node found
+        return current;
     }
 
     @Override
