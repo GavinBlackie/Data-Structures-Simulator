@@ -43,4 +43,27 @@ public abstract class LinkedList<T> implements LinearStructure{
         head = null;
         size = 0;
     }
+
+    // Two "helper" getters for customizing display text across LinkedList types
+    protected abstract String getSeparator();
+    protected abstract String getEmptyDisplayMessage();
+
+    @Override
+    public void displayDetails() {
+        if (head == null) {
+            System.out.println(getEmptyDisplayMessage());
+            return;
+        }
+
+        StringBuilder printMsg = new StringBuilder();
+        Node<T> current = head;
+        while (current != null) {
+            printMsg.append(current.data);
+            if (current.next != null) {
+                printMsg.append(getSeparator());
+            }
+            current = current.next;
+        }
+        System.out.println(printMsg);
+    }
 }

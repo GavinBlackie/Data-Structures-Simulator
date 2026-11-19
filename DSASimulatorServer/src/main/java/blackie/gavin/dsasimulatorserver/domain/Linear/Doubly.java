@@ -206,24 +206,13 @@ public class Doubly<T> extends LinkedList<T> {
     }
 
     @Override
-    public void displayDetails() {
-        StringBuilder printMsg = new StringBuilder();
-        Node<T> current = head;
-        while (current != null) {
-            printMsg.append(current.data.toString().concat(" <-> "));
-            current = current.next;
-        }
-        if (current != head) {
-            printMsg = new StringBuilder(printMsg.substring(0, printMsg.length() - 4));
-        } else {
-            printMsg = new StringBuilder("head -> null <- tail");
-        }
-        System.out.println(printMsg);
-    }
-
-    @Override
     public void clear() {
         super.clear();
         tail = null;
     }
+
+    @Override
+    protected String getSeparator() { return " <-> "; }
+    @Override
+    protected String getEmptyDisplayMessage() {return "head -> null <- tail"; }
 }

@@ -200,18 +200,7 @@ public class Singly<T> extends LinkedList<T> {
     }
 
     @Override
-    public void displayDetails() {
-        StringBuilder printMsg = new StringBuilder();
-        Node<T> current = head;
-        while (current != null) {
-            printMsg.append(current.data.toString().concat(" -> "));
-            current = current.next;
-        }
-        if (current != head) {
-            printMsg = new StringBuilder(printMsg.substring(0, printMsg.length() - 3));
-        } else {
-            printMsg = new StringBuilder("head -> null");
-        }
-        System.out.println(printMsg);
-    }
+    protected String getSeparator() { return " -> "; }
+    @Override
+    protected String getEmptyDisplayMessage() {return "head -> null"; }
 }
