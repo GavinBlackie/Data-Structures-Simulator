@@ -1,5 +1,7 @@
 package blackie.gavin.dsasimulatorserver.domain.Linear;
 
+import java.util.NoSuchElementException;
+
 /* Represents an implementation of a singly linked list
  */
 public class Singly<T> extends LinkedList<T>{
@@ -59,43 +61,42 @@ public class Singly<T> extends LinkedList<T>{
     @Override
     public void insert(Node<T> position, T value) {
         // Cannot insert by position node if there is no list at all
-        if (head == null)
+        if (head == null || position == null)
             return;
 
         Node<T> current = head;
         Node<T> prev = null;
         while (current != null) {
             if (current.equals(position)) {
-
                 // case that the position is the first node
                 if (prev == null) {
                     head = new Node<>(value, current);
                 } else {
                     prev.next = new Node<>(value, current);
                 }
+                size++;
                 return;
             }
             prev = current;
             current = current.next;
         }
-        size++;
     }
+
     @Override
     public void insert(int index, T value) {
         if (index > size || index < 0) // stop trying if the index is out of the size range
             return;
         if (index == 0) {
-            head = new Node<> (value, null);
-            size++;
+            insertFirst(value);
             return;
         }
 
-        Node<T>  current = head;
-        Node<T>  prev = null;
+        Node<T> current = head;
+        Node<T> prev = null;
 
         // Traverse exactly "index" times
         int jCount = 0;
-        while ( (current.next != null) && (jCount < index)) {
+        while ((current != null) && (jCount < index)) {
             prev = current;
             current = current.next;
             jCount++;
@@ -103,13 +104,17 @@ public class Singly<T> extends LinkedList<T>{
         // Insert the element between prev and curr
         if (prev != null) {
             prev.next = new Node<>(value, current);
-        } else { // else it is at the front, prev is null, so just add it to the existing head node
-            head.next = new Node<>(value, null);
         }
         size++;
     }
+
     @Override
     public void insertLast(T value) {
+        if (head == null) {
+            insertFirst(value);
+            return;
+        }
+
         // Traverse until the next node is null (reached the last node)
         Node<T> current = head;
         while (current.next != null) {
@@ -119,12 +124,22 @@ public class Singly<T> extends LinkedList<T>{
         current.next = new Node<>(value, null);
         size++;
     }
+
     @Override
     public void remove(Node<T> position) {
+        if (head == null || position == null)
+            return;
+
+        // Case that the position is the first node
+        if (head.equals(position)) {
+            removeFirst();
+            return;
+        }
+
         // Traverse until we reach that position
         Node<T> current = head;
-        while (current.next.next != null) {
-            if (current.next.equals(position) ) {
+        while (current.next != null) {
+            if (current.next.equals(position)) {
                 // Link current with the one after that position, let Java delete current.next with garbage collection
                 current.next = current.next.next;
                 size--;
@@ -133,10 +148,16 @@ public class Singly<T> extends LinkedList<T>{
             current = current.next;
         }
     }
+
     @Override
     public void remove(int index) {
         if (index >= size || index < 0) // stop trying if the index is out of the size range
             return;
+        if (index == 0) {
+            removeFirst();
+            return;
+        }
+
         // Traverse exactly "index" - 1 times
         Node<T> current = head;
         for (int jCount = 0; jCount < index - 1; jCount++) {
@@ -145,17 +166,23 @@ public class Singly<T> extends LinkedList<T>{
             current = current.next;
         }
         // If there is something after, ensure the list remains connected
-        if (current.next.next != null) {
+        if (current.next != null) {
             current.next = current.next.next;
+            size--;
         }
-        // Else just remove
-        else {
-            current.next = null;
-        }
-        size--;
     }
+
     @Override
     public void removeLast() {
+        if (head == null) {
+            throw new NoSuchElementException("Cannot remove from an empty list");
+        }
+        if (head.next == null) {
+            head = null;
+            size--;
+            return;
+        }
+
         // Traverse until second last node, then delete
         Node<T> current = head;
         while (current.next.next != null) {
@@ -164,34 +191,36 @@ public class Singly<T> extends LinkedList<T>{
         current.next = null;
         size--;
     }
+
     @Override
     public Node<T> search(T target) {
+        if (head == null || target == null)
+            return null;
+
         // Search will take O(n) time
         // Traverse and try to find the node containing the target
         Node<T> current = head;
         while (current != null) {
-            if (current.data.equals(target) ) {
+            if (target.equals(current.data)) {
                 return current;
             }
             current = current.next;
         }
-        // Return an empty node if nothing found (can be changed to a thrown exception later)
-        return new Node<>(null, null);
+        return null;
     }
+
     @Override
     public Node<T> find(int index) {
+        if (index < 0 || index >= size)
+            throw new IndexOutOfBoundsException("Index " + index + " out of range, Size: " + size);
+
         Node<T> current = head;
         for (int jNode = 0; jNode < index; jNode++) {
-            // If node does not exist, return an empty node
-            if (current == null) {
-                return new Node<>(null, null);
-            }
-            else {
-                current = current.next;
-            }
+            current = current.next;
         }
         return current;
     }
+
 
     @Override
     public void displayDetails() {
