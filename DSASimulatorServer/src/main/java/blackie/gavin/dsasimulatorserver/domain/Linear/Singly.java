@@ -60,53 +60,42 @@ public class Singly<T> extends LinkedList<T>{
 
     @Override
     public void insert(Node<T> position, T value) {
-        // Cannot insert by position node if there is no list at all
-        if (head == null || position == null)
-            return;
+        if (position == null)
+            throw new IllegalArgumentException("Position cannot be null");
 
-        Node<T> current = head;
-        Node<T> prev = null;
-        while (current != null) {
-            if (current.equals(position)) {
-                // case that the position is the first node
-                if (prev == null) {
-                    head = new Node<>(value, current);
-                } else {
-                    prev.next = new Node<>(value, current);
-                }
-                size++;
-                return;
-            }
-            prev = current;
-            current = current.next;
+        // Case that the position is the first node
+        if (position == head) {
+            insertFirst(value);
+            return;
         }
+
+        // 1. Create the new node, insert it between position's previous node and position
+        Node<T> newNode = new Node<>(value, position.prev, position);
+
+        // 2. Link position's previous node forward to the new node
+        if (position.prev != null) {
+            position.prev.next = newNode;
+        }
+        // 3. Always link position back to the new node
+        position.prev = newNode;
+        size++;
     }
 
     @Override
     public void insert(int index, T value) {
         if (index > size || index < 0) // stop trying if the index is out of the size range
-            return;
+            throw new IndexOutOfBoundsException("Index " + index + " out of range, Size: " + size);
+
         if (index == 0) {
             insertFirst(value);
-            return;
+        } else if (index == size) {
+            insertLast(value);
+        } else {
+            // Inserts BEFORE the node currently at 'index', placing the new node AT 'index'
+            this.insert(this.find(index), value);
         }
-
-        Node<T> current = head;
-        Node<T> prev = null;
-
-        // Traverse exactly "index" times
-        int jCount = 0;
-        while ((current != null) && (jCount < index)) {
-            prev = current;
-            current = current.next;
-            jCount++;
-        }
-        // Insert the element between prev and curr
-        if (prev != null) {
-            prev.next = new Node<>(value, current);
-        }
-        size++;
     }
+
 
     @Override
     public void insertLast(T value) {
