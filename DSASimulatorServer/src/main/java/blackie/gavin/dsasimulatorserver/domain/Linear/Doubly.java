@@ -131,12 +131,6 @@ public class Doubly<T> extends LinkedList<T> {
     }
 
     @Override
-    public void remove(int index) {
-        // Remove the element at the found index (utilise the find method)
-        this.remove(this.find(index));
-    }
-
-    @Override
     public void removeLast() {
         if (tail == null)
             throw new NoSuchElementException("Cannot remove from an empty list");

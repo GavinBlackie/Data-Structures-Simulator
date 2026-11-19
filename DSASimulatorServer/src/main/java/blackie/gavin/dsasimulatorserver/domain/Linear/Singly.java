@@ -151,29 +151,6 @@ public class Singly<T> extends LinkedList<T> {
     }
 
     @Override
-    public void remove(int index) {
-        if (index >= size || index < 0) // stop trying if the index is out of the size range
-            return;
-        if (index == 0) {
-            removeFirst();
-            return;
-        }
-
-        // Traverse exactly "index" - 1 times
-        Node<T> current = head;
-        for (int jCount = 0; jCount < index - 1; jCount++) {
-            if (current.next == null)
-                return;
-            current = current.next;
-        }
-        // If there is something after, ensure the list remains connected
-        if (current.next != null) {
-            current.next = current.next.next;
-            size--;
-        }
-    }
-
-    @Override
     public void removeLast() {
         if (head == null) {
             throw new NoSuchElementException("Cannot remove from an empty list");

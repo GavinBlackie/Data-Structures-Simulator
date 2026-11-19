@@ -15,7 +15,10 @@ public abstract class LinkedList<T> implements LinearStructure{
     }
     public abstract void insertLast(T value);
     public abstract void remove(Node<T> position);
-    public abstract void remove(int index);
+    public void remove(int index) {
+        // Remove the element at the found index (utilise the find method)
+        this.remove(this.find(index));
+    }
     public void removeFirst() {
         if (head == null) {
             throw new NoSuchElementException("Cannot remove from an empty list");
