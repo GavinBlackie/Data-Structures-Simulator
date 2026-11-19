@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 
 public class Doubly<T> extends LinkedList<T> {
 
-    private Node<T> tail = head;
+    public Node<T> tail = head;
 
     static void main() {
         LinkedList<Character> linkedList = new Doubly<>();
@@ -28,6 +28,10 @@ public class Doubly<T> extends LinkedList<T> {
         System.out.println("Search Result: " + searchResult.data);
         Node<String> findResult = fruits.find(1);
         System.out.println("Find Result: " + findResult.data);
+        fruits.insert(findResult, "Pear");
+        Doubly<String> doublyFruits = (Doubly<String>) fruits;
+        doublyFruits.insert(doublyFruits.tail, "Coconut");
+        fruits.displayDetails();
     }
 
     @Override
@@ -37,13 +41,27 @@ public class Doubly<T> extends LinkedList<T> {
             head.next.prev = head;
         }
         if (tail == null) { // initialize tail if we are inserting the first item in the whole list
-            tail = head.next;
+            tail = head;
         }
     }
 
     @Override
     public void insert(Node<T> position, T value) {
+        if (position == null)
+            throw new IllegalArgumentException("Position cannot be null");
 
+        // 1. Create the new node, insert it between position and the next position
+        Node<T> newNode = new Node<>(value, position, position.next);
+
+        // 2. If there is a node after "position", update its prev to be the new node
+        if (position.next != null) {
+            position.next.prev = newNode;
+        } else { // "Position" was the tail, so update the tail
+            tail = newNode;
+        }
+        // 3. Always link position back to the new node
+        position.next = newNode;
+        size++;
     }
 
     @Override
@@ -97,11 +115,11 @@ public class Doubly<T> extends LinkedList<T> {
         };
         // Task 2: Search in backwards direction from tail
         Callable<Node<T>> searchFromTail = () -> {
-          Node<T> current = head;
+          Node<T> current = tail;
           while (current != null && !Thread.currentThread().isInterrupted()) {
               if (target.equals(current.data))
                   return current;
-              current = current.next;
+              current = current.prev;
           }
           throw new Exception("Target could not be found from tail");
         };
@@ -139,11 +157,6 @@ public class Doubly<T> extends LinkedList<T> {
         }
         // 3. Return the node found
         return current;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return false;
     }
 
     @Override
