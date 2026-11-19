@@ -29,8 +29,8 @@ public class Doubly<T> extends LinkedList<T> {
         Node<String> findResult = fruits.find(1);
         System.out.println("Find Result: " + findResult.data);
         fruits.insert(findResult, "Pear");
-        Doubly<String> doublyFruits = (Doubly<String>) fruits;
-        doublyFruits.insert(doublyFruits.tail, "Coconut");
+        //Doubly<String> doublyFruits = (Doubly<String>) fruits;
+        //doublyFruits.insert(doublyFruits.tail, "Coconut");
         fruits.displayDetails();
     }
 
