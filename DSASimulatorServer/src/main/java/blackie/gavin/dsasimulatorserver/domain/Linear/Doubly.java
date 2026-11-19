@@ -1,5 +1,11 @@
 package blackie.gavin.dsasimulatorserver.domain.Linear;
 
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class Doubly<T> extends LinkedList<T> {
 
     private Node<T> tail = head;
@@ -17,6 +23,9 @@ public class Doubly<T> extends LinkedList<T> {
         fruits.insertFirst("Pear");
         fruits.insertLast("Banana"); // head -> Pear <-> Apple <-> Banana <- tail
         fruits.displayDetails();
+
+        Node<String> foundBanana = fruits.search("Banana");
+        System.out.println("Searched and found: " + foundBanana.data);
     }
 
     @Override
@@ -44,16 +53,15 @@ public class Doubly<T> extends LinkedList<T> {
     public void insertLast(T value) {
         // If tail already exists, add it and change it
         if (tail != null) {
-            tail.next = new Node<T>(value, tail, null);
+            tail.next = new Node<>(value, tail, null);
             tail = tail.next;
-            size++;
         }
         // Else head and tail point to the same thing
         else {
-            head = new Node<T>(value, null, null);
+            head = new Node<>(value, null, null);
             tail = head;
-            size++;
         }
+        size++;
     }
 
     @Override
@@ -73,23 +81,40 @@ public class Doubly<T> extends LinkedList<T> {
 
     @Override
     public Node<T> search(T target) {
-        // TODO: Implement multithreading to search from both sides!!
+        if (head == null || target == null) return null;
 
-        Thread headThread = new Thread( () -> {
-            System.out.println("Head Thread");
+        // Task 1: Search in forward direction from head
+        Callable<Node<T>> searchFromHead = () -> {
             Node<T> current = head;
-            System.out.println(current);
-        });
-        Thread tailThread = new Thread( () -> {
-            System.out.println("Tail Thread");
-            Node<T> current = tail;
-            System.out.println(current);
-        });
+            while (current != null && !Thread.currentThread().isInterrupted()) {
+                if (target.equals(current.data))
+                    return current;
+                current = current.next;
+            }
+            throw new Exception("Target could not be found from head");
+        };
+        // Task 2: Search in backwards direction from tail
+        Callable<Node<T>> searchFromTail = () -> {
+          Node<T> current = head;
+          while (current != null && !Thread.currentThread().isInterrupted()) {
+              if (target.equals(current.data))
+                  return current;
+              current = current.next;
+          }
+          throw new Exception("Target could not be found from tail");
+        };
 
-        headThread.start();
-        tailThread.start();
-
-        return null;
+        // Try-to-search-with a multithread executor service!!! :0
+        try (ExecutorService executor = Executors.newFixedThreadPool(2)) {
+            // Invoke any: execute until the single fastest thread finishes
+            // Returned value is the single fastest return between the two threads!
+            return executor.invokeAny(List.of(searchFromHead, searchFromTail));
+        }
+        // Catch an interruption, or an execution exception which
+        // occurs if BOTH threads fail to find the target value
+        catch (InterruptedException | ExecutionException e) {
+            return null;
+        }
     }
 
     @Override
