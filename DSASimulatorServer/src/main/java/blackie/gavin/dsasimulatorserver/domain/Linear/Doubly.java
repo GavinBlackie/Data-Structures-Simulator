@@ -1,5 +1,9 @@
 package blackie.gavin.dsasimulatorserver.domain.Linear;
 
+import blackie.gavin.dsasimulatorserver.thread.JavaLinkedListTestRunnable;
+import blackie.gavin.dsasimulatorserver.thread.NativeDoublyTestRunnable;
+
+import java.lang.annotation.Native;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.Callable;
@@ -39,6 +43,12 @@ public class Doubly<T> extends LinkedList<T> {
         fruits.removeLast();
         fruits.removeLast();
         fruits.displayDetails();
+
+        // Perform two threaded tests, each running one after another (avoid any interference in resources between each other)
+        Thread doublyThread = new Thread( new NativeDoublyTestRunnable() );
+        doublyThread.start();
+        Thread javaThread = new Thread( new JavaLinkedListTestRunnable() );
+        javaThread.start();
     }
 
     @Override
